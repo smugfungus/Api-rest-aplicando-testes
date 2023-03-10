@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 test('Deve inserir uma conta com sucesso', () => {
   return request(app).post(MAIN_ROUTE)
-    .send({ name: 'Acc #1', user_id: user.user_id })
+    .send({ name: 'Acc #1', user_Id: user.id })
     .then((result) => {
       expect(result.status).toBe(201)
       expect(result.body.name).toBe('Acc #1')
