@@ -17,3 +17,44 @@ test('Deve inserir uma conta com sucesso', () => {
       expect(result.body.name).toBe('Acc #1')
     })
 })
+
+test('Deve listar todas as contas', () => {
+  return app.db('accounts')
+    .insert({ name: 'Acc list', user_Id: user.id })
+    .then(() => request(app).get(MAIN_ROUTE))
+    .then((res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.length).toBeGreaterThan(0)
+    })
+})
+
+test('Deve retornar uma conta por Id', () => {
+  return app.db('accounts')
+    .insert({ name: 'Acc by Id', user_Id: user.id }, ['id'])
+    .then(acc => request(app).get(`${MAIN_ROUTE}/${acc[0].id}`))
+    .then((res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.name).toBe('Acc by Id')
+      expect(res.body.user_Id).toBe(user.id)
+    })
+})
+
+test('Deve alterar uma conta', () => {
+  return app.db('accounts')
+    .insert({ name: 'Acc To Update', user_Id: user.id }, ['id'])
+    .then(acc => request(app).put(`${MAIN_ROUTE}/${acc[0].id}`)
+      .send({ name: 'Acc Updated' }))
+    .then((res) => {
+      expect(res.status).toBe(200)
+      expect(res.body.name).toBe('Acc Updated')
+    })
+})
+
+test('Deve remover uma conta', () => {
+  return app.db('accounts')
+    .insert({ name: 'Acc To Remove', user_Id: user.id }, ['id'])
+    .then(acc => request(app).delete(`${MAIN_ROUTE}/${acc[0].id}`))
+    .then((res) => {
+      expect(res.status).toBe(204)
+    })
+})
