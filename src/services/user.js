@@ -25,7 +25,7 @@ module.exports = (app) => {
 
     const newUser = { ...user }
     newUser.password = getPasswordHash(user.password)
-    return app.db('users').insert(newUser, ['id', 'name', 'email'])
+    return app.db('users').insert(newUser, ['id', 'name', 'mail'])
   }
 
   return { findAll, save, findOne }

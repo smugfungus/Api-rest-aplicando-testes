@@ -1,5 +1,6 @@
 module.exports = (app) => {
   app.route('/auth/signin').post(app.routes.auth.signin)
+  app.route('/auth/signup').post(app.routes.users.create)
 
   app.route('/users')
     .all(app.config.passport.authenticate())
@@ -8,7 +9,7 @@ module.exports = (app) => {
 
   app.route('/accounts')
     .all(app.config.passport.authenticate())
-    .ger(app.routes.accounts.getAll)
+    .get(app.routes.accounts.getAll)
     .post(app.routes.accounts.create)
 
   app.route('/accounts/:id')
