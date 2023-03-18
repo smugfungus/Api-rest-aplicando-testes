@@ -11,7 +11,7 @@ module.exports = (app) => {
   }
 
   const getPasswordHash = (password) => {
-    const salt = bcrypt.genSaltSync(8)
+    const salt = bcrypt.genSaltSync(10)
     return bcrypt.hashSync(password, salt)
   }
 
