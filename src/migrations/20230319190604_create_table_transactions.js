@@ -6,7 +6,7 @@ exports.up = (knex) => {
     t.date('date').notNull()
     t.decimal('ammount', 15, 2).notNull()
     t.boolean('status').notNull().default(false)
-    t.integer('add_id')
+    t.integer('acc_id')
       .references('id')
       .inTable('accounts')
       .notNull()
