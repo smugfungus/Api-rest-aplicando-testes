@@ -2,15 +2,15 @@ const ValidationError = require('../errors/ValidationError')
 
 module.exports = (app) => {
   const find = (userId, filter = {}) => {
-    return app.db('transactions')
-      .join('accounts', 'accounts.id', 'acc_id')
+    return app.db('Transactions')
+      .join('accounts', 'accounts.id', 'acc_Id')
       .where(filter)
-      .andWhere('accounts.user_id', '=', userId)
+      .andWhere('accounts.user_Id', '=', userId)
       .select()
   }
 
   const findOne = (filter) => {
-    return app.db('transactions')
+    return app.db('Transactions')
       .where(filter)
       .first()
   }
@@ -28,17 +28,17 @@ module.exports = (app) => {
       newTransaction.ammount *= -1
     }
 
-    return app.db('transactions').insert(newTransaction, '*')
+    return app.db('Transactions').insert(newTransaction, '*')
   }
 
   const update = (id, transaction) => {
-    return app.db('transactions')
+    return app.db('Transactions')
       .where({ id })
       .update(transaction, '*')
   }
 
   const remove = (id) => {
-    return app.db('transactions')
+    return app.db('Transactions')
       .where({ id })
       .del()
   }

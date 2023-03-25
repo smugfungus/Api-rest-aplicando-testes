@@ -1,3 +1,8 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+
 exports.up = (knex) => {
   return knex.schema.createTable('Transactions', (t) => {
     t.increments('id').primary()
@@ -12,7 +17,10 @@ exports.up = (knex) => {
       .notNull()
   })
 }
-
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
 exports.down = (knex) => {
   return knex.schema.dropTable('Transactions')
 }

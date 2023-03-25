@@ -2,14 +2,14 @@ const request = require('supertest')
 const jwt = require('jwt-simple')
 const app = require('../../src/app')
 
-const MAIN_ROUTE = '/v1/transactions'
+const MAIN_ROUTE = '/v1/Transactions'
 let user
 let user2
 let accUser
 let accUser2
 
 beforeAll(async () => {
-  await app.db('transactions').del()
+  await app.db('Transactions').del()
   await app.db('accounts').del()
   await app.db('users').del()
   const users = await app.db('users').insert([
@@ -31,7 +31,7 @@ beforeAll(async () => {
 })
 
 test('Deve listar apenas as transações do usuário', () => {
-  return app.db('transactions').insert([
+  return app.db('Transactions').insert([
     { description: 'T1', data: new Date(), ammount: 100, type: 'I', acc_id: accUser.id },
     { description: 'T2', data: new Date(), ammount: 300, type: 'O', acc_id: accUser.id }
   ]).then(() => request(app).get(MAIN_ROUTE))
@@ -103,7 +103,7 @@ describe('Ao tentar inserir uma transação inválida', () => {
 })
 
 test('Deve retornar uma transação por ID', () => {
-  return app.db('transactions').insert(
+  return app.db('Transactions').insert(
     { description: 'T ID', data: new Date(), ammount: 100, type: 'I', acc_id: accUser.id }, ['id']
   ).then(trans => request(app).get(`${MAIN_ROUTE}/${trans[0].id}`)
     .set('authorization', `bearer ${user.token}`)
@@ -115,7 +115,7 @@ test('Deve retornar uma transação por ID', () => {
 })
 
 test('Deve alterar uma transação', () => {
-  return app.db('transactions').insert(
+  return app.db('Transactions').insert(
     { description: 'to Update', data: new Date(), ammount: 100, type: 'I', acc_id: accUser.id }, ['id']
   ).then(trans => request(app).put(`${MAIN_ROUTE}/${trans[0].id}`)
     .set('authorization', `bearer ${user.token}`)
@@ -127,7 +127,7 @@ test('Deve alterar uma transação', () => {
 })
 
 test('Deve remover uma transação', () => {
-  return app.db('transactions').insert(
+  return app.db('Transactions').insert(
     { description: 'To delete', data: new Date(), ammount: 100, type: 'I', acc_id: accUser.id }, ['id']
   ).then(trans => request(app).delete(`${MAIN_ROUTE}/${trans[0].id}`)
     .set('authorization', `bearer ${user.token}`)
@@ -137,7 +137,7 @@ test('Deve remover uma transação', () => {
 })
 
 test('Não deve remover uma transação de outro usuário', () => {
-  return app.db('transactions').insert(
+  return app.db('Transactions').insert(
     { description: 'To delete', data: new Date(), ammount: 100, type: 'I', acc_id: accUser2.id }, ['id']
   ).then(trans => request(app).delete(`${MAIN_ROUTE}/${trans[0].id}`)
     .set('authorization', `bearer ${user.token}`)
@@ -148,7 +148,7 @@ test('Não deve remover uma transação de outro usuário', () => {
 })
 
 test('Não deve remover uma conta com transação', () => {
-  return app.db('transactions').insert(
+  return app.db('Transactions').insert(
     { description: 'To delete', data: new Date(), ammount: 100, type: 'I', acc_id: accUser.id }, ['id']
   ).then(() => request(app).delete(`/v1/accounts/${accUser.id}`)
     .set('authorization', `bearer ${user.token}`)
